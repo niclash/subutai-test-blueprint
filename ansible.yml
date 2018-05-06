@@ -1,0 +1,61 @@
+---
+
+- hosts: all
+  gather_facts: false
+  remote_user: root
+  tasks:
+    - name: Update
+      apt:
+        name: "*"
+        state: latest
+
+    - name: Ensure python is available
+      apt:
+        name: python-minimal
+        allow_unauthenticated: yes
+
+    - name: Ensure python-apt is available
+      apt:
+        name: python-apt
+        allow_unauthenticated: yes
+
+    - name: Remove useless packages from the cache
+      apt:
+        autoclean: yes
+
+    - name: Remove dependencies that are no longer required
+      apt:
+        autoremove: yes
+
+- hosts: debrepo
+  tasks:
+    - name: create useful groups
+      group: name={{ item }} state=present
+      with_items:
+        - "debrepo"
+
+    - name: create users
+      user: name={{item}} state=present shell=/bin/bash groups=debrepo
+      with_items: "debrepo"
+
+  roles:
+    - role: generate_gpgkey
+      gpg_user: debrepo
+      gpg_realname: 'debrepo'
+      gpg_useremail: 'debrepo@localhost'
+      gpg_pubkeyfile: 'debrepo.pub'
+      gpg_privkeyfile: 'debrepo.priv'
+
+  tasks:
+    - name: Export PGP key
+      become: yes
+      become_user: debrepo
+      raw: gpg --armor --export debrepo@localhost --output debrepo@localhost.gpg.key
+
+    - name: Create repository conf directory
+      file: path=/debian-repository/conf state=directory mode=775 owner=debrepo group=debrepo
+
+    - name: Install reprepro
+      apt:
+        name: reprepro
+        update_cache: yes

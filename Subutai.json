@@ -1,0 +1,45 @@
+{
+  "name": "Debian Repository",
+  "description": "Debian Repository for non-offical packages to be used within the Subutai deployment",
+  "version": "0.0.1",
+  "author": "https://github.com/niclash",
+  "ssh-key": "niclas",
+  "containers": [
+    {
+      "hostname": "repository",
+      "template": "debian-stretch",
+      "peer-criteria": "SRV-GROUP",
+      "size": "${containerSize}",
+      "port-mapping": [
+        {
+          "protocol": "tcp",
+          "domain": "${domain}",
+          "internal-port": "9876",
+          "external-port": "${port}"
+        }
+      ]
+    }
+  ],
+  "peer-criteria": [
+    {
+      "name": "SRV-GROUP",
+      "max-price": "25"
+    }
+  ],
+  "ansible-configuration": {
+    "source-url": "https://github.com/niclash/subutai-debian-repository/archive/master.zip",
+    "ansible-playbook": "ansible.yml",
+    "extra-vars": [
+    ],
+    "groups": [
+      {
+        "name": "debrepo",
+        "hostnames": [
+          "debrepo"
+        ]
+      }
+    ]
+  },
+  "user-variables": {
+  }
+}

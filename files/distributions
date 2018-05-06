@@ -1,0 +1,8 @@
+Origin: thinkingbeers.com
+Label: apt repository
+Codename: subutai
+Architectures: amd64
+Components: main
+Description: Debian stretch repository running on Subutai
+SignWith: yes
+Pull: stretch
