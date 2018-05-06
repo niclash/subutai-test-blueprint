@@ -14,7 +14,7 @@
         {
           "protocol": "tcp",
           "domain": "${domain}",
-          "internal-port": "9876",
+          "internal-port": "8080",
           "external-port": "${port}"
         }
       ]
@@ -30,6 +30,10 @@
     "source-url": "https://github.com/niclash/subutai-debian-repository/archive/master.zip",
     "ansible-playbook": "ansible.yml",
     "extra-vars": [
+      {
+        "key": "domain_name",
+        "value": "${domain}"
+      }
     ],
     "groups": [
       {
@@ -41,5 +45,11 @@
     ]
   },
   "user-variables": {
+    "containerSize": {
+      "description": "Container Size",
+      "type": "enum",
+      "default": "MEDIUM",
+      "validation": "TINY,SMALL,MEDIUM,LARGE,HUGE"
+    }
   }
 }
