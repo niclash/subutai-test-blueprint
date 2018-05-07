@@ -1,7 +1,7 @@
 {
   "name": "Debian Repository",
   "description": "Debian Repository for non-offical packages to be used within the Subutai deployment",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "author": "https://github.com/niclash",
   "ssh-key": "niclas",
   "containers": [
@@ -14,7 +14,7 @@
         {
           "protocol": "tcp",
           "domain": "${domain}",
-          "internal-port": "8080",
+          "internal-port": "80",
           "external-port": "${port}"
         }
       ]
@@ -33,6 +33,10 @@
       {
         "key": "domain_name",
         "value": "${domain}"
+      },
+      {
+        "key": "port",
+        "value": "${port}"
       }
     ],
     "groups": [
@@ -45,6 +49,12 @@
     ]
   },
   "user-variables": {
+    "port": {
+      "description": "Port of webserver",
+      "type": "int",
+      "default": "80",
+      "validation": ""
+    },
     "containerSize": {
       "description": "Container Size",
       "type": "enum",

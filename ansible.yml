@@ -28,19 +28,10 @@
         autoremove: yes
 
 - hosts: debrepo
-  tasks:
-    - name: create useful groups
-      group: name={{ item }} state=present
-      with_items:
-        - "debrepo"
-
-    - name: create users
-      user: name={{item}} state=present shell=/bin/bash groups=debrepo
-      with_items: "debrepo"
 
   roles:
     - role: generate_gpgkey
-      gpg_user: debrepo
+      gpg_user: wwwdata
       gpg_realname: 'debrepo'
       gpg_useremail: 'debrepo@localhost'
       gpg_pubkeyfile: 'debrepo.pub'
@@ -49,13 +40,31 @@
   tasks:
     - name: Export PGP key
       become: yes
-      become_user: debrepo
-      raw: gpg --armor --export debrepo@localhost --output debrepo@localhost.gpg.key
+      become_user: wwwdata
+      raw: gpg --armor --export wwwdata@localhost --output wwwdata@localhost.gpg.key
 
     - name: Create repository conf directory
-      file: path=/debian-repository/conf state=directory mode=775 owner=debrepo group=debrepo
+      file: path=/etc/debian-repository state=directory mode=775 owner=wwwdata group=wwwdata
+
+    - name: Copy cron job
+      template: src=cronjob.sh.j2 dest=/var/reprepro/bin/cronjob.sh mode=775 owner=wwwdata group=wwwdata
+
+    - file: path=/var/reprepro/incoming/dev state=directory mode=775 owner=wwwdata group=wwwdata
+    - file: path=/var/reprepro/incoming/staging state=directory mode=775 owner=wwwdata group=wwwdata
+    - file: path=/var/reprepro/incoming/prod state=directory mode=775 owner=wwwdata group=wwwdata
+
+    - name: Install Apache web server
+      apt:
+        name: apache2
+        state: latest
 
     - name: Install reprepro
       apt:
         name: reprepro
-        update_cache: yes
+        state: latest
+
+    - name: Install cron job
+      cron:
+        name: "Update Debian Repository"
+        minute: "*/10"
+        job: "/var/reprepro/bin/cronjob.sh"

@@ -1,0 +1,29 @@
+#!/bin/sh
+REPO_PATH=/var/reprepro/incoming
+DISTS="dev staging prod"
+
+repo_include() {
+    if [ -z "$1" ] || [ -z "$2" ] ; then
+        return 1
+    else
+        REPO="$1"
+        RELEASE="$2"
+        LOC="$REPO"/"$RELEASE"
+    fi
+
+    if [ -z "$(ls ${LOC}/*.deb 2>/dev/null)" ]; then
+        # Nothing to include
+        return 0
+    elif ! [ -z "$(ls ${LOC}/uploading_* 2>/dev/null)" ]; then
+        echo "Uploading in progress, wait until complete."
+        return 0
+    else
+        cd ${REPO_PATH}/.. || exit 1
+        reprepro includedeb $RELEASE ${LOC}/*.deb && rm -f ${LOC}/*
+    fi
+}
+
+for x in $DISTS; do
+    cd $REPO_PATH || exit 1
+    repo_include $REPO_PATH "$x" "$1" "$2"
+done
