@@ -1,7 +1,7 @@
 {
   "name": "Debian Repository",
   "description": "Debian Repository for non-offical packages to be used within the Subutai deployment",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "author": "https://github.com/niclash",
   "ssh-key": "niclas",
   "containers": [
@@ -52,8 +52,8 @@
     "port": {
       "description": "Port of webserver",
       "type": "int",
-      "default": "80",
-      "validation": ""
+      "default": "8380",
+      "validation": "[0-9]+"
     },
     "containerSize": {
       "description": "Container Size",
