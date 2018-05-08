@@ -6,7 +6,7 @@
   "ssh-key": "niclas",
   "containers": [
     {
-      "hostname": "repository",
+      "hostname": "debrepo",
       "template": "debian-stretch",
       "peer-criteria": "SRV-GROUP",
       "size": "${containerSize}",
