@@ -55,13 +55,6 @@
       become_user: reprepro
       raw: gpg --armor --export reprepro@localhost --output $HOME/reprepro@localhost.gpg.key
 
-    - file: path=/etc/debian-repository state=directory mode=775 owner=wwwdata group=wwwdata
-    - file: path=/var/reprepro/incoming/dev state=directory mode=775 owner=wwwdata group=wwwdata
-    - file: path=/var/reprepro/incoming/staging state=directory mode=775 owner=wwwdata group=wwwdata
-    - file: path=/var/reprepro/incoming/prod state=directory mode=775 owner=wwwdata group=wwwdata
-
-    - name: Copy cron job
-      template: src=cronjob.sh.j2 dest=/var/reprepro/bin/cronjob.sh mode=775 owner=wwwdata group=wwwdata
 
     - name: Install Apache web server
       apt:
@@ -70,6 +63,28 @@
 
     - name: Copy Apache configuration
       template: src=reprepro.conf.j2 dest=/etc/apache2/sites-available/debrepo.conf mode=775 owner=wwwdata group=wwwdata
+
+    - name: Link website in Apache
+      file:
+        src: /etc/apache2/sites-available/debrepo.conf
+        dest: /etc/apache2/sites-enabled/
+        owner: wwwdata
+        group: wwwdata
+        state: link
+
+    - name: Create incoming directories
+      file: path=/var/reprepro/incoming/{{item}}
+        state: directory
+        mode: 775
+        owner: wwwdata
+        group: wwwdata
+      with_items:
+        - dev
+        - staging
+        - prod
+
+    - name: Copy cron job
+      template: src=cronjob.sh.j2 dest=/var/reprepro/bin/cronjob.sh mode=775 owner=wwwdata group=wwwdata
 
     - name: Install reprepro
       apt:
