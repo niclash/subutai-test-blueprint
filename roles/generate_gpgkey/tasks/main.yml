@@ -8,19 +8,13 @@
 - name: entropy state
   debug: var=entropy
 
-- name: apt | Ensure have enough randomness
+- name: Ensure have enough randomness
   become: yes
   apt: name={{item}} state=present update_cache=yes
   with_items:
     - rng-tools
     - gpgv2
     - acl
-
-- name: apt | Ensure have enough randomness
-  become: yes
-  apt: name={{item}} state=present update_cache=yes
-  with_items:
-    - rng-tools
     - gnupg
 
 - name: check entropy state

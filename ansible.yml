@@ -28,8 +28,13 @@
         autoremove: yes
 
 - hosts: debrepo
+
   tasks:
     - user: name=reprepro group=wwwdata
+
+# This should not be needed, but I am getting 'root:root' as owner of the /home/reprepro directory
+- name: Ensure HOME directory exists with right permissions
+  file: dest=/home/reprepro state=directory mode=0755 owner="{{ gpg_generator_user }}"
 
   roles:
     - role: generate_gpgkey
