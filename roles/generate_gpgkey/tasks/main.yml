@@ -101,5 +101,5 @@
   fetch: "src={{ item }} dest={{ gpg_pulldir }}/ flat=yes"
   with_items:
     - "{{ gpg_home }}/{{ gpg_privkeyfile }}"
-when: gpg_pull is defined and gpg_pull and gpg_pull_privatekey is defined and gpg_pull_privatekey
+  when: gpg_pull is defined and gpg_pull and gpg_pull_privatekey is defined and gpg_pull_privatekey
 
