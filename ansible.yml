@@ -28,45 +28,49 @@
         autoremove: yes
 
 - hosts: debrepo
+  - group: name=reprepro
+  - user: name=reprepro group=reprepro
 
   roles:
     - role: generate_gpgkey
-      gpg_generator_user: 'wwwdata'
-      gpg_user: 'wwwdata'
-      gpg_realname: 'wwwdata'
-      gpg_useremail: 'wwwdata@localhost'
+      gpg_generator_user: 'reprepro'
+      gpg_user: 'reprepro'
+      gpg_realname: 'reprepro'
+      gpg_useremail: 'reprepro@localhost'
       gpg_pubkeyfile: 'debrepo.pub'
       gpg_privkeyfile: 'debrepo.priv'
 
   tasks:
     - name: Export PGP key
       become: yes
-      become_user: wwwdata
-      raw: gpg --armor --export wwwdata@localhost --output $HOME/wwwdata@localhost.gpg.key
-#
-#    - file: path=/etc/debian-repository state=directory mode=775 owner=wwwdata group=wwwdata
-#    - file: path=/var/reprepro/incoming/dev state=directory mode=775 owner=wwwdata group=wwwdata
-#    - file: path=/var/reprepro/incoming/staging state=directory mode=775 owner=wwwdata group=wwwdata
-#    - file: path=/var/reprepro/incoming/prod state=directory mode=775 owner=wwwdata group=wwwdata
-#
-#    - name: Copy cron job
-#      template: src=cronjob.sh.j2 dest=/var/reprepro/bin/cronjob.sh mode=775 owner=wwwdata group=wwwdata
-#
-#    - name: Install Apache web server
-#      apt:
-#        name: apache2
-#        state: latest
-#
-#    - name: Copy Apache configuration
-#      template: src=reprepro.conf.j2 dest=/etc/apache2/sites-available/debrepo.conf mode=775 owner=wwwdata group=wwwdata
-#
-#    - name: Install reprepro
-#      apt:
-#        name: reprepro
-#        state: latest
-#
-#    - name: Install cron job
-#      cron:
-#        name: "Update Debian Repository"
-#        minute: "*/10"
-#        job: "/var/reprepro/bin/cronjob.sh"
+      become_user: reprepro
+      raw: gpg --armor --export reprepro@localhost --output $HOME/reprepro@localhost.gpg.key
+
+    - file: path=/etc/debian-repository state=directory mode=775 owner=wwwdata group=wwwdata
+    - file: path=/var/reprepro/incoming/dev state=directory mode=775 owner=wwwdata group=wwwdata
+    - file: path=/var/reprepro/incoming/staging state=directory mode=775 owner=wwwdata group=wwwdata
+    - file: path=/var/reprepro/incoming/prod state=directory mode=775 owner=wwwdata group=wwwdata
+
+    - name: Copy cron job
+      template: src=cronjob.sh.j2 dest=/var/reprepro/bin/cronjob.sh mode=775 owner=wwwdata group=wwwdata
+
+    - name: Install Apache web server
+      apt:
+        name: apache2
+        state: latest
+
+    - name: Copy Apache configuration
+      template: src=reprepro.conf.j2 dest=/etc/apache2/sites-available/debrepo.conf mode=775 owner=wwwdata group=wwwdata
+
+    - name: Install reprepro
+      apt:
+        name: reprepro
+        state: latest
+
+    - name: Install cron job
+      become: yes
+      become_user: reprepro
+      cron:
+        name: "Update Debian Repository"
+        minute: "*/10"
+        job: "/var/reprepro/bin/cronjob.sh"
