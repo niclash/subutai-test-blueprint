@@ -67,7 +67,7 @@
     - name: Link website in Apache
       file:
         src: /etc/apache2/sites-available/debrepo.conf
-        dest: /etc/apache2/sites-enabled/
+        dest: /etc/apache2/sites-enabled/debrepo.conf
         owner: www-data
         group: www-data
         state: link
