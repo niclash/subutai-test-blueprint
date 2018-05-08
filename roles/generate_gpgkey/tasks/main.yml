@@ -42,7 +42,6 @@
 ## Note: matching on realname or email doesn't allow to create multiple keys. alternative?
 
 - name: check existing secret key
-  become: yes
   shell: "gpg --list-secret-keys | grep '{{ gpg_realname }}'"
   changed_when: false
   ignore_errors: true
@@ -52,7 +51,6 @@
 - debug: var=gpgkeys
 
 - name: generate gpg key
-  become: yes
   command: "gpg --batch --gen-key {{ gpg_home }}/.gnupg/gen-key-script-{{ gpg_user }} chdir={{ gpg_home }}"
   become_user: "{{ gpg_generator_user }}"
   when: gpgkeys is defined and gpgkeys.stdout == ""
@@ -61,7 +59,6 @@
 #- debug: var=genkey
 
 - name: import generated keys
-  become: yes
   command: "gpg --import {{ gpg_home }}/{{ gpg_pubkeyfile }} {{ gpg_home }}/{{ gpg_privkeyfile }}"
   become_user: "{{ gpg_generator_user }}"
   when: gpgkeys is defined and gpgkeys.stdout == ""
@@ -78,7 +75,6 @@
   shell: "gpg --export -a {{ gpg_useremail }} > {{ gpg_home }}/{{ gpg_pubkeyfileexport }}"
   changed_when: false
   become_user: "{{ gpg_generator_user }}"
-
 
 - debug: var=gpg_pull
 
