@@ -53,7 +53,7 @@
     },
     "domain": {
       "description": "Port of webserver",
-      "type": "domain",
+      "type": "domain"
     },
     "containerSize": {
       "description": "Container Size",
