@@ -1,0 +1,12 @@
+<VirtualHost *:{{port}}>
+    ServerName {{domain}}
+    DocumentRoot /var/reprepro/html
+    ErrorLog /var/log/apache/debrepo_error_log
+    CustomLog /var/log/apache/debrepo_access_log combined
+    ScriptAlias /cgi-bin/ /home/hedhman/cgi-bin/
+    DirectoryIndex index.html
+    <Directory /var/reprepro/html>
+        Options +Indexes +IncludesNOEXEC +SymLinksIfOwnerMatch +ExecCGI
+        allow from all
+    </Directory>
+</VirtualHost>
