@@ -62,25 +62,25 @@
         state: latest
 
     - name: Copy Apache configuration
-      template: src=debrepo.conf.j2 dest=/etc/apache2/sites-available/debrepo.conf mode=775 owner=wwwdata group=wwwdata
+      template: src=debrepo.conf.j2 dest=/etc/apache2/sites-available/debrepo.conf mode=775 owner=www-data group=www-data
 
     - name: Link website in Apache
       file:
         src: /etc/apache2/sites-available/debrepo.conf
         dest: /etc/apache2/sites-enabled/
-        owner: wwwdata
-        group: wwwdata
+        owner: www-data
+        group: www-data
         state: link
 
     - name: Create incoming directories
-      file: path=/var/reprepro/incoming/{{item}} state=directory mode=775 owner=wwwdata group=wwwdata
+      file: path=/var/reprepro/incoming/{{item}} state=directory mode=775 owner=www-data group=www-data
       with_items:
         - dev
         - staging
         - prod
 
     - name: Copy cron job
-      template: src=cronjob.sh.j2 dest=/var/reprepro/bin/cronjob.sh mode=775 owner=wwwdata group=wwwdata
+      template: src=cronjob.sh.j2 dest=/var/reprepro/bin/cronjob.sh mode=775 owner=www-data group=www-data
 
     - name: Install reprepro
       apt:
