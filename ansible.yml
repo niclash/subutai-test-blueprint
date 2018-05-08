@@ -19,6 +19,11 @@
         name: python-apt
         allow_unauthenticated: yes
 
+    - name: Ensure python-apt is available
+      apt:
+        name: sudo
+        allow_unauthenticated: yes
+
     - name: Remove useless packages from the cache
       apt:
         autoclean: yes
