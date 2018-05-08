@@ -1,6 +1,6 @@
 ---
 - name: Setup users
   user:
-    name: {{item}}
+    name: "{{item}}"
   with_items:
     - {{users}}
