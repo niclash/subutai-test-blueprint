@@ -33,6 +33,10 @@
       {
         "key": "domain_name",
         "value": "${domain}"
+      },
+      {
+        "key": "port",
+        "value": "${port}"
       }
     ],
     "groups": [
