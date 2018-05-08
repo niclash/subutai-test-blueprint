@@ -13,7 +13,6 @@
   apt: name={{item}} state=present update_cache=yes
   with_items:
     - rng-tools
-    - gpgv2
     - acl
     - gnupg
 
