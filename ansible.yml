@@ -28,8 +28,7 @@
         autoremove: yes
 
 - hosts: debrepo
-  - group: name=reprepro
-  - user: name=reprepro group=reprepro
+  - user: name=reprepro group=wwwdata
 
   roles:
     - role: generate_gpgkey
