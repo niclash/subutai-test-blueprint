@@ -78,6 +78,7 @@
         - dev
         - staging
         - prod
+        - ../bin
 
     - name: Copy cron job
       template: src=cronjob.sh.j2 dest=/var/reprepro/bin/cronjob.sh mode=775 owner=www-data group=www-data
