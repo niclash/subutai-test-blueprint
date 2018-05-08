@@ -38,13 +38,16 @@
     - role: setup-users
       users: [ "reprepro" ]
 
-    - role: generate_gpgkey
-      gpg_generator_user: 'reprepro'
-      gpg_user: 'reprepro'
-      gpg_realname: 'reprepro'
-      gpg_useremail: 'reprepro@localhost'
-      gpg_pubkeyfile: 'debrepo.pub'
-      gpg_privkeyfile: 'debrepo.priv'
+    - role: ansible-role-pgp_key
+      gpg_key_user: "reprepro"
+
+#    - role: generate_gpgkey
+#      gpg_generator_user: 'reprepro'
+#      gpg_user: 'reprepro'
+#      gpg_realname: 'reprepro'
+#      gpg_useremail: 'reprepro@localhost'
+#      gpg_pubkeyfile: 'debrepo.pub'
+#      gpg_privkeyfile: 'debrepo.priv'
 
   tasks:
     - name: Export PGP key
