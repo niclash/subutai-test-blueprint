@@ -62,7 +62,7 @@
         state: latest
 
     - name: Copy Apache configuration
-      template: src=reprepro.conf.j2 dest=/etc/apache2/sites-available/debrepo.conf mode=775 owner=wwwdata group=wwwdata
+      template: src=debrepo.conf.j2 dest=/etc/apache2/sites-available/debrepo.conf mode=775 owner=wwwdata group=wwwdata
 
     - name: Link website in Apache
       file:
