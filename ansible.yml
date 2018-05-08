@@ -4,10 +4,10 @@
   gather_facts: false
   remote_user: root
   tasks:
-    - name: Update
-      apt:
-        name: "*"
-        state: latest
+#    - name: Update
+#      apt:
+#        name: "*"
+#        state: latest
 
     - name: Ensure python is available
       apt:
