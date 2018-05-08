@@ -1,7 +1,7 @@
 {
   "name": "Debian Repository",
   "description": "Debian Repository for non-offical packages to be used within the Subutai deployment",
-  "version": "0.0.29",
+  "version": "0.0.30",
   "author": "https://github.com/niclash",
   "ssh-key": "niclas",
   "containers": [
@@ -31,7 +31,7 @@
     "ansible-playbook": "ansible.yml",
     "extra-vars": [
       {
-        "key": "domain_name",
+        "key": "domain",
         "value": "${domain}"
       },
       {
