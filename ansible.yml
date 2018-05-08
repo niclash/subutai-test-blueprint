@@ -73,11 +73,7 @@
         state: link
 
     - name: Create incoming directories
-      file: path=/var/reprepro/incoming/{{item}}
-        state: directory
-        mode: 775
-        owner: wwwdata
-        group: wwwdata
+      file: path=/var/reprepro/incoming/{{item}} state=directory mode=775 owner=wwwdata group=wwwdata
       with_items:
         - dev
         - staging
