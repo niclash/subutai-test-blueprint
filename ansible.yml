@@ -38,7 +38,7 @@
     - role: setup-users
       users: [ "reprepro" ]
 
-    - role: ansible-role-pgp_key
+    - role: pgp_key
       gpg_key_user: "reprepro"
 
 #    - role: generate_gpgkey
