@@ -29,20 +29,20 @@
 
 - hosts: debrepo
 
-#  roles:
-#    - role: generate_gpgkey
-#      gpg_generator_user: 'wwwdata'
-#      gpg_user: 'wwwdata'
-#      gpg_realname: 'wwwdata'
-#      gpg_useremail: 'wwwdata@localhost'
-#      gpg_pubkeyfile: 'debrepo.pub'
-#      gpg_privkeyfile: 'debrepo.priv'
-#
-#  tasks:
-#    - name: Export PGP key
-#      become: yes
-#      become_user: wwwdata
-#      raw: gpg --armor --export wwwdata@localhost --output $HOME/wwwdata@localhost.gpg.key
+  roles:
+    - role: generate_gpgkey
+      gpg_generator_user: 'wwwdata'
+      gpg_user: 'wwwdata'
+      gpg_realname: 'wwwdata'
+      gpg_useremail: 'wwwdata@localhost'
+      gpg_pubkeyfile: 'debrepo.pub'
+      gpg_privkeyfile: 'debrepo.priv'
+
+  tasks:
+    - name: Export PGP key
+      become: yes
+      become_user: wwwdata
+      raw: gpg --armor --export wwwdata@localhost --output $HOME/wwwdata@localhost.gpg.key
 #
 #    - file: path=/etc/debian-repository state=directory mode=775 owner=wwwdata group=wwwdata
 #    - file: path=/var/reprepro/incoming/dev state=directory mode=775 owner=wwwdata group=wwwdata
