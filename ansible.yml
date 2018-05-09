@@ -61,27 +61,27 @@
         name: apache2
         state: latest
 
-    - name: Copy Apache configuration
-      template: src=debrepo.conf.j2 dest=/etc/apache2/sites-available/debrepo.conf mode=775 owner=www-data group=www-data
+#    - name: Copy Apache configuration
+#      template: src=debrepo.conf.j2 dest=/etc/apache2/sites-available/debrepo.conf mode=775 owner=www-data group=www-data
 
-    - name: Link website in Apache
-      file:
-        src: /etc/apache2/sites-available/debrepo.conf
-        dest: /etc/apache2/sites-enabled/debrepo.conf
-        owner: www-data
-        group: www-data
-        state: link
+#    - name: Link website in Apache
+#      file:
+#        src: /etc/apache2/sites-available/debrepo.conf
+#        dest: /etc/apache2/sites-enabled/debrepo.conf
+#        owner: www-data
+#        group: www-data
+#        state: link
 
     - name: Create incoming directories
-      file: path=/var/reprepro/incoming/{{item}} state=directory mode=775 owner=www-data group=www-data
+      file: path=/var/www/{{item}} state=directory mode=775 owner=www-data group=www-data
       with_items:
         - dev
         - staging
         - prod
-        - ../bin
+        - bin
 
     - name: Copy cron job
-      template: src=cronjob.sh.j2 dest=/var/reprepro/bin/cronjob.sh.j2 mode=775 owner=www-data group=www-data
+      template: src=cronjob.sh.j2 dest=/var/www/bin/cronjob.sh mode=775 owner=www-data group=www-data
 
     - name: Install reprepro
       apt:
@@ -94,4 +94,4 @@
       cron:
         name: "Update Debian Repository"
         minute: "*/10"
-        job: "/var/reprepro/bin/cronjob.sh.j2"
+        job: "/var/www/bin/cronjob.sh"

@@ -1,5 +1,5 @@
 #!/bin/sh
-REPO_PATH=/var/reprepro/incoming
+REPO_PATH=/var/www
 DISTS="dev staging prod"
 
 repo_include() {
@@ -19,7 +19,7 @@ repo_include() {
         return 0
     else
         cd ${REPO_PATH}/.. || exit 1
-        reprepro includedeb $RELEASE ${LOC}/*.deb && rm -f ${LOC}/*
+        reprepro includedeb -b /var/www/html $RELEASE ${LOC}/*.deb && rm -f ${LOC}/*
     fi
 }
 
